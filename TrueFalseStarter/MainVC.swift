@@ -10,6 +10,8 @@ import UIKit
 import GameKit
 import AudioToolbox
 
+// Really close. Issues are in the didTapAnswerButton func - Correct or Wrong will not populate on the screen. Once game is completed, the score is not populating on the screen. The code in the Stack Overflow example speaks about using a 'Next' button which we do not have. How to replace this functionality? // 
+
 class MainVC: UIViewController {
     
     let questionsPerRound = 7
@@ -37,7 +39,7 @@ class MainVC: UIViewController {
     @IBOutlet weak var answerC: UIButton!
     @IBOutlet weak var answerD: UIButton!
     
-    lazy var button: [UIButton] = { return [self.answerA, self.answerB, self.answerC, self.answerD] }()
+    lazy var buttons: [UIButton] = { return [self.answerA, self.answerB, self.answerC, self.answerD] }()
     
 
     override func viewDidLoad() {
@@ -47,7 +49,7 @@ class MainVC: UIViewController {
         playGameStartSound()
         questionIndexes = Array(0 ..< questions.count)
         questionIndexes.shuffle()
-        displayQuestion()
+        updateLabelsAndButtonsForIndex(questionIndex: 0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,10 +57,35 @@ class MainVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func displayQuestion() {
-        currentQuestionIndex = GKRandomSource.sharedRandom().nextInt(upperBound: questions.count)
-        let questionDictionary = questions[currentQuestionIndex]
-        questionField.text = questionDictionary.question
+    // New methods from example //
+    
+    func updateLabelsAndButtonsForIndex(questionIndex: Int) {
+        // if we're done, show message in `endLabel` and hide `nextButton`
+        guard questionIndex < questions.count else {
+            playAgainButton.isHidden = true
+            return
+        }
+        // update our property
+        
+        currentQuestionIndex = questionIndex
+        
+        // hide end label and next button
+        
+        hideEndLabelAndNextButton()
+        
+        // identify which question we're presenting
+        
+        let questionObject = questions[questionIndexes[questionIndex]]
+        
+        // update question label and answer buttons accordingly
+        
+        questionField.text = questionObject.question
+        for (answerIndex, button) in buttons.enumerated() {
+            button.setTitle(questionObject.answers[answerIndex], for: .normal)
+        }
+    }
+    
+    func hideEndLabelAndNextButton() {
         playAgainButton.isHidden = true
     }
     
@@ -76,31 +103,30 @@ class MainVC: UIViewController {
         
     }
     
-    @IBAction func checkAnswer(_ sender: UIButton) {
-        // Increment the questions asked counter
+// Old methods //
+    
+    @IBAction func didTapAnswerButton(button: UIButton) {
         questionsAsked += 1
-        /*
         
-        let selectedQuestionDict = questions[indexOfSelectedQuestion]
-        let correctAnswer = selectedQuestionDict.correctA
+        let buttonIndex = buttons.index(of: button)
+        let questionObject = questions[questionIndexes[currentQuestionIndex]]
         
-        if (sender === trueButton &&  correctAnswer == "True") || (sender === falseButton && correctAnswer == "False") {
+        if buttonIndex == questionObject.correctAnswer {
+            questionField.text = "CORRECT!"
             correctQuestions += 1
-            questionField.text = "Correct!"
+            updateLabelsAndButtonsForIndex(questionIndex: currentQuestionIndex + 1)
         } else {
-            questionField.text = "Sorry, wrong answer!"
+            questionField.text = "WRONG!"
+            updateLabelsAndButtonsForIndex(questionIndex: currentQuestionIndex + 1)
         }
-        
-        loadNextRoundWithDelay(seconds: 2) */
+        loadNextRoundWithDelay(seconds: 2)
     }
     
+
     func nextRound() {
         if questionsAsked == questionsPerRound {
             // Game is over
-            displayScore()
-        } else {
-            // Continue game
-            displayQuestion()
+        playAgainButton.isHidden = false
         }
     }
     
@@ -115,8 +141,6 @@ class MainVC: UIViewController {
         correctQuestions = 0
         nextRound()
     }
-    
-
     
     // MARK: Helper Methods
     
@@ -155,5 +179,14 @@ extension MutableCollection where Indices.Iterator.Element == Index {
             let i = index(firstUnshuffled, offsetBy: d)
             swap(&self[firstUnshuffled], &self[i])
         }
+    }
+}
+
+extension Sequence {
+    /// Returns an array with the contents of this sequence, shuffled.
+    func shuffled() -> [Iterator.Element] {
+        var result = Array(self)
+        result.shuffle()
+        return result
     }
 }
