@@ -20,6 +20,7 @@ class MainVC: UIViewController {
     
     var gameSound: SystemSoundID = 0
     
+    
     let questions: [Quiz] = [
         Quiz(question: "Barack Obama was first elected president of the United States in what year?", answers: ["2008", "2004", "2012", "2010"], correctAnswer: 0),
         Quiz(question: "How many U.S. presidents were only children?", answers: ["Two", "None", "Three", "One"], correctAnswer: 1),
