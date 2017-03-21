@@ -29,7 +29,10 @@ class MainVC: UIViewController {
         Quiz(question: "How many US Supreme Court justices are there?", answers: ["Eleven", "Five", "Seven", "Nine"], correctAnswer: 3),
         Quiz(question: "Which US president was known as 'The Great Communicator'?", answers: ["Ronald Regan", "Barack Obama", "George W Bush", "John F Kennedy"], correctAnswer: 0),
         Quiz(question: "The Electoral College in the United States is made up of how many electors?", answers: ["600", "500", "538", "578"], correctAnswer: 2),
-        Quiz(question: "How old must a person be to run for President of the United States?", answers: ["35", "38", "42", "45"], correctAnswer: 0)]
+        Quiz(question: "How old must a person be to run for President of the United States?", answers: ["35", "38", "42", "45"], correctAnswer: 0),
+        Quiz(question: "Who is next in line to succeed the President, after the Vice President?", answers: ["Speaker of the House", "Secretary of State", "Senate Majority Leader", "Secretary of Defense"], correctAnswer: 0),
+        Quiz(question: "Who was the first president of the United States to live in the White House?", answers: [" George Washington", "John Adams", "Thomas Jefferson", "Abraham Lincoln"], correctAnswer: 1)
+    ]
     
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var playAgainButton: UIButton!
@@ -50,7 +53,6 @@ class MainVC: UIViewController {
         questionIndexes.shuffle()
         print(questionIndexes)
         updateLabelsAndButtonsForIndex(questionIndex: 0)
-        nextRound()
     }
 
     override func didReceiveMemoryWarning() {
@@ -130,20 +132,7 @@ class MainVC: UIViewController {
         print("BRIAN: loadNextRound is running")
     }
     
-
-    func nextRound() {
-        if questionsAsked > 6 {
-            // Game is over
-        print("BRIAN: Questions asked = questions per round")
-        playAgainButton.isHidden = false
-        displayScore()
-        } else {
-            updateLabelsAndButtonsForIndex(questionIndex: currentQuestionIndex + 1)
-        }
-    }
-
     
-
     @IBAction func playAgain(_ sender: Any) {
     
         // Show the answer buttons
@@ -151,10 +140,11 @@ class MainVC: UIViewController {
         answerB.isHidden = false
         answerC.isHidden = false
         answerD.isHidden = false
+        playAgainButton.isHidden = true
+        updateLabelsAndButtonsForIndex(questionIndex: 0)
         
         questionsAsked = 0
         correctQuestions = 0
-        nextRound()
     }
     
     // MARK: Helper Methods
@@ -167,7 +157,7 @@ class MainVC: UIViewController {
         
         // Executes the nextRound method at the dispatch time on the main queue
         DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
-            self.nextRound()
+            self.updateLabelsAndButtonsForIndex(questionIndex: self.currentQuestionIndex + 1)
             print("BRIAN: Moving to nextRound()")
             print("\(self.questionsAsked)")
         }
