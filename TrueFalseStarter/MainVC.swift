@@ -10,11 +10,10 @@ import UIKit
 import GameKit
 import AudioToolbox
 
-// Really close. Issues are in the didTapAnswerButton func - Correct or Wrong will not populate on the screen. Once game is completed, the score is not populating on the screen. The code in the Stack Overflow example speaks about using a 'Next' button which we do not have. How to replace this functionality? // 
+// Really close. Issues are in the didTapAnswerButton func - Correct or Wrong will not populate on the screen. Once game is completed, the score is not populating on the screen. The code in the Stack Overflow example speaks about using a 'Next' button which we do not have. How to replace this functionality? //
 
 class MainVC: UIViewController {
     
-    let questionsPerRound = 7
     var questionsAsked = 0
     var correctQuestions = 0
     var questionIndexes: [Int]!
@@ -49,7 +48,9 @@ class MainVC: UIViewController {
         playGameStartSound()
         questionIndexes = Array(0 ..< questions.count)
         questionIndexes.shuffle()
+        print(questionIndexes)
         updateLabelsAndButtonsForIndex(questionIndex: 0)
+        nextRound()
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,7 +63,13 @@ class MainVC: UIViewController {
     func updateLabelsAndButtonsForIndex(questionIndex: Int) {
         // if we're done, show message in `endLabel` and hide `nextButton`
         guard questionIndex < questions.count else {
-            playAgainButton.isHidden = true
+            playAgainButton.isHidden = false
+            
+            questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questions.count) correct!"
+            answerA.isHidden = true
+            answerB.isHidden = true
+            answerC.isHidden = true
+            answerD.isHidden = true
             return
         }
         // update our property
@@ -71,7 +78,7 @@ class MainVC: UIViewController {
         
         // hide end label and next button
         
-        hideEndLabelAndNextButton()
+        hidePlayAgainAndEndLabel()
         
         // identify which question we're presenting
         
@@ -85,7 +92,7 @@ class MainVC: UIViewController {
         }
     }
     
-    func hideEndLabelAndNextButton() {
+    func hidePlayAgainAndEndLabel() {
         playAgainButton.isHidden = true
     }
     
@@ -99,7 +106,7 @@ class MainVC: UIViewController {
         // Display play again button
         playAgainButton.isHidden = false
         
-        questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
+        questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questions.count) correct!"
         
     }
     
@@ -114,23 +121,31 @@ class MainVC: UIViewController {
         if buttonIndex == questionObject.correctAnswer {
             questionField.text = "CORRECT!"
             correctQuestions += 1
-            updateLabelsAndButtonsForIndex(questionIndex: currentQuestionIndex + 1)
+            
         } else {
             questionField.text = "WRONG!"
-            updateLabelsAndButtonsForIndex(questionIndex: currentQuestionIndex + 1)
+            
         }
         loadNextRoundWithDelay(seconds: 2)
+        print("BRIAN: loadNextRound is running")
     }
     
 
     func nextRound() {
-        if questionsAsked == questionsPerRound {
+        if questionsAsked > 6 {
             // Game is over
+        print("BRIAN: Questions asked = questions per round")
         playAgainButton.isHidden = false
+        displayScore()
+        } else {
+            updateLabelsAndButtonsForIndex(questionIndex: currentQuestionIndex + 1)
         }
     }
+
     
-    @IBAction func playAgain() {
+
+    @IBAction func playAgain(_ sender: Any) {
+    
         // Show the answer buttons
         answerA.isHidden = false
         answerB.isHidden = false
@@ -153,6 +168,8 @@ class MainVC: UIViewController {
         // Executes the nextRound method at the dispatch time on the main queue
         DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
             self.nextRound()
+            print("BRIAN: Moving to nextRound()")
+            print("\(self.questionsAsked)")
         }
     }
     
