@@ -19,6 +19,13 @@ class MainVC: UIViewController {
     var questionIndexes: [Int]!
     var currentQuestionIndex = 0
     
+    // For Timer //
+    
+    var seconds = 15
+    var timer = Timer()
+    var timerIsOn = false 
+    
+    
     var gameSound: SystemSoundID = 0
     
     
@@ -40,6 +47,7 @@ class MainVC: UIViewController {
     @IBOutlet weak var answerB: UIButton!
     @IBOutlet weak var answerC: UIButton!
     @IBOutlet weak var answerD: UIButton!
+    @IBOutlet weak var timerLabel: UILabel!
     
     lazy var buttons: [UIButton] = { return [self.answerA, self.answerB, self.answerC, self.answerD] }()
     
@@ -60,20 +68,41 @@ class MainVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    // New methods from example //
+    func updateTimer() {
+        seconds -= 1
+        timerLabel.text = String(seconds)
+        
+        if seconds == 0 {
+            self.timer.invalidate()
+            questionField.text = "OOPS! Out of time!"
+            seconds = 15
+            questionsAsked += 1
+            loadNextRoundWithDelay(seconds: 2)
+        }
+    }
     
     func updateLabelsAndButtonsForIndex(questionIndex: Int) {
         // if we're done, show message in `endLabel` and hide `nextButton`
         guard questionIndex < questions.count else {
             playAgainButton.isHidden = false
             
-            questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questions.count) correct!"
+            if correctQuestions >= 8 {
+                questionField.text = "That's amazing! You are quiet the history buff!! You got \(correctQuestions) out of \(questions.count) correct!"
+            } else if correctQuestions >= 5 {
+                questionField.text = "Prety good! You got \(correctQuestions) out of \(questions.count) correct!"
+            } else if correctQuestions >= 3 {
+                questionField.text = "Better brush up on your US triva! You got \(correctQuestions) out of \(questions.count) correct!"
+            }
+
             answerA.isHidden = true
             answerB.isHidden = true
             answerC.isHidden = true
             answerD.isHidden = true
             return
         }
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(MainVC.updateTimer)), userInfo: nil, repeats: true)
+        
         // update our property
         
         currentQuestionIndex = questionIndex
@@ -117,6 +146,10 @@ class MainVC: UIViewController {
     @IBAction func didTapAnswerButton(button: UIButton) {
         questionsAsked += 1
         
+        timer.invalidate()
+        seconds = 15
+        timerLabel.text = String(seconds)
+        
         let buttonIndex = buttons.index(of: button)
         let questionObject = questions[questionIndexes[currentQuestionIndex]]
         
@@ -150,6 +183,7 @@ class MainVC: UIViewController {
     // MARK: Helper Methods
     
     func loadNextRoundWithDelay(seconds: Int) {
+
         // Converts a delay in seconds to nanoseconds as signed 64 bit integer
         let delay = Int64(NSEC_PER_SEC * UInt64(seconds))
         // Calculates a time value to execute the method given current time and delay
