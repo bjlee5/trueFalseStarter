@@ -56,7 +56,7 @@ class MainVC: UIViewController {
         super.viewDidLoad()
         loadGameStartSound()
         // Start game
-        playGameStartSound()
+        playSound()
         questionIndexes = Array(0 ..< questions.count)
         questionIndexes.shuffle()
         print(questionIndexes)
@@ -74,6 +74,8 @@ class MainVC: UIViewController {
         
         if seconds == 0 {
             self.timer.invalidate()
+            loadBuzzerSound()
+            playSound()
             questionField.text = "OOPS! Out of time!"
             seconds = 15
             questionsAsked += 1
@@ -86,14 +88,16 @@ class MainVC: UIViewController {
         guard questionIndex < questions.count else {
             playAgainButton.isHidden = false
             
+            
             if correctQuestions >= 8 {
-                questionField.text = "That's amazing! You are quiet the history buff!! You got \(correctQuestions) out of \(questions.count) correct!"
+                questionField.text = "Amazing! You are quite the history buff!! You got \(correctQuestions) out of \(questions.count) correct!"
             } else if correctQuestions >= 5 {
-                questionField.text = "Prety good! You got \(correctQuestions) out of \(questions.count) correct!"
+                questionField.text = "Pretty good! You got \(correctQuestions) out of \(questions.count) correct!"
             } else if correctQuestions >= 3 {
-                questionField.text = "Better brush up on your US triva! You got \(correctQuestions) out of \(questions.count) correct!"
+                questionField.text = "Better brush up on your US history! You got \(correctQuestions) out of \(questions.count) correct!"
             }
 
+            timerLabel.isHidden = true
             answerA.isHidden = true
             answerB.isHidden = true
             answerC.isHidden = true
@@ -154,10 +158,14 @@ class MainVC: UIViewController {
         let questionObject = questions[questionIndexes[currentQuestionIndex]]
         
         if buttonIndex == questionObject.correctAnswer {
+            loadCorrectSound()
+            playSound()
             questionField.text = "CORRECT!"
             correctQuestions += 1
             
         } else {
+            loadWrongSound()
+            playSound()
             questionField.text = "WRONG!"
             
         }
@@ -169,6 +177,7 @@ class MainVC: UIViewController {
     @IBAction func playAgain(_ sender: Any) {
     
         // Show the answer buttons
+        timerLabel.isHidden = false
         answerA.isHidden = false
         answerB.isHidden = false
         answerC.isHidden = false
@@ -203,10 +212,31 @@ class MainVC: UIViewController {
         AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
     }
     
-    func playGameStartSound() {
+    func playSound() {
         AudioServicesPlaySystemSound(gameSound)
     }
+    
+    func loadCorrectSound() {
+        let pathToSoundFile = Bundle.main.path(forResource: "Correct", ofType: "wav")
+        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
+    }
+    
+    func loadBuzzerSound() {
+        let pathToSoundFile = Bundle.main.path(forResource: "Buzzer", ofType: "wav")
+        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
+    }
+    
+    func loadWrongSound() {
+        let pathToSoundFile = Bundle.main.path(forResource: "Wrong", ofType: "wav")
+        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
+    }
 }
+
+
+
 
 extension MutableCollection where Indices.Iterator.Element == Index {
     /// Shuffles the contents of this collection.

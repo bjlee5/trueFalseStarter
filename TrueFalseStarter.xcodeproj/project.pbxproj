@@ -12,26 +12,26 @@
 		97093D411C913506001275BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97093D3F1C913506001275BC /* Main.storyboard */; };
 		97093D431C913506001275BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97093D421C913506001275BC /* Assets.xcassets */; };
 		97093D461C913506001275BC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97093D441C913506001275BC /* LaunchScreen.storyboard */; };
-		97093D531C932116001275BC /* GameSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97093D521C932116001275BC /* GameSound.wav */; settings = {ASSET_TAGS = (0, ); }; };
+		97093D531C932116001275BC /* GameSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97093D521C932116001275BC /* GameSound.wav */; };
 		D061A70E1E80136600C18581 /* Trivia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D061A70D1E80136600C18581 /* Trivia.swift */; };
-		D0BEB04A1E84349200685D60 /* Correct.wav in Resources */ = {isa = PBXBuildFile; fileRef = D0BEB0491E84349200685D60 /* Correct.wav */; settings = {ASSET_TAGS = (2, ); }; };
-		D0BEB04C1E84349700685D60 /* Wrong.wav in Resources */ = {isa = PBXBuildFile; fileRef = D0BEB04B1E84349700685D60 /* Wrong.wav */; settings = {ASSET_TAGS = (3, ); }; };
-		D0BEB04E1E84349C00685D60 /* Buzzer.wav in Resources */ = {isa = PBXBuildFile; fileRef = D0BEB04D1E84349C00685D60 /* Buzzer.wav */; settings = {ASSET_TAGS = (1, ); }; };
+		D0BEB04A1E84349200685D60 /* Correct.wav in Resources */ = {isa = PBXBuildFile; fileRef = D0BEB0491E84349200685D60 /* Correct.wav */; };
+		D0BEB04C1E84349700685D60 /* Wrong.wav in Resources */ = {isa = PBXBuildFile; fileRef = D0BEB04B1E84349700685D60 /* Wrong.wav */; };
+		D0BEB04E1E84349C00685D60 /* Buzzer.wav in Resources */ = {isa = PBXBuildFile; fileRef = D0BEB04D1E84349C00685D60 /* Buzzer.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		97093D381C913506001275BC /* TrueFalseStarter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrueFalseStarter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97093D3B1C913506001275BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		97093D3D1C913506001275BC /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
+		97093D3D1C913506001275BC /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainVC.swift; path = /Users/macbookair/Desktop/TrueFalseApp/TrueFalseStarter/TrueFalseStarter/MainVC.swift; sourceTree = "<absolute>"; };
 		97093D401C913506001275BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		97093D421C913506001275BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97093D451C913506001275BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97093D471C913506001275BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		97093D521C932116001275BC /* GameSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = GameSound.wav; sourceTree = "<group>"; };
+		97093D521C932116001275BC /* GameSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = GameSound.wav; path = /Users/macbookair/Desktop/TrueFalseApp/TrueFalseStarter/TrueFalseStarter/GameSound.wav; sourceTree = "<absolute>"; };
 		D061A70D1E80136600C18581 /* Trivia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trivia.swift; sourceTree = "<group>"; };
-		D0BEB0491E84349200685D60 /* Correct.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Correct.wav; sourceTree = "<group>"; };
-		D0BEB04B1E84349700685D60 /* Wrong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Wrong.wav; sourceTree = "<group>"; };
-		D0BEB04D1E84349C00685D60 /* Buzzer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Buzzer.wav; sourceTree = "<group>"; };
+		D0BEB0491E84349200685D60 /* Correct.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Correct.wav; path = /Users/macbookair/Desktop/TrueFalseApp/TrueFalseStarter/TrueFalseStarter/Correct.wav; sourceTree = "<absolute>"; };
+		D0BEB04B1E84349700685D60 /* Wrong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Wrong.wav; path = /Users/macbookair/Desktop/TrueFalseApp/TrueFalseStarter/TrueFalseStarter/Wrong.wav; sourceTree = "<absolute>"; };
+		D0BEB04D1E84349C00685D60 /* Buzzer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Buzzer.wav; path = /Users/macbookair/Desktop/TrueFalseApp/TrueFalseStarter/TrueFalseStarter/Buzzer.wav; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
