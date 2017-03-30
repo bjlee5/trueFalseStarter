@@ -10,7 +10,6 @@ import UIKit
 import GameKit
 import AudioToolbox
 
-// Really close. Issues are in the didTapAnswerButton func - Correct or Wrong will not populate on the screen. Once game is completed, the score is not populating on the screen. The code in the Stack Overflow example speaks about using a 'Next' button which we do not have. How to replace this functionality? //
 
 class MainVC: UIViewController {
     
